@@ -79,7 +79,7 @@ for k = 1:length(S1.A)
    end
 end
 
-Qa = 0.01*eye(qs);
+Qa = 100*eye(qs);
 
 
 

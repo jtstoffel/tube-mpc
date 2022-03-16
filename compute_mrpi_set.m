@@ -11,8 +11,6 @@ alpha = 1000;
 Ms = 1000;
 E = eye(nx);
 it = 0;
-
-
 disp('-------------------------------------------------')
 disp('Calculating Invariant Set ...')
 tic

@@ -1,4 +1,4 @@
-function sys = double_integrator_model()
+function sys = planar_double_integrator_model()
 %% State-Space
 A = [0 0 1 0 ; 
      0 0 0 1 ; 
@@ -45,4 +45,7 @@ sys.u_min = u_min;
 sys.u_max = u_max;
 sys.w_min = w_min;
 sys.w_max = w_max;
-sys.name = 'Double Integrator Model';
+sys.name = 'planar_double_integrator_model';
+sys.nx = 4;
+sys.nu = 2;
+sys.nw = 4;

@@ -5,7 +5,7 @@ if ~exist('system','var')
     system.name = '';
 end
 
-filename = strcat(tube_mpc_root, '/', 'data/', strrep(system.name,' ','-'), '- ', string(now));
+filename = strcat(pwd, '/', 'data/', strrep(system.name,' ','-'), '- ', string(now));
 save(filename)
 
 clear filename now
