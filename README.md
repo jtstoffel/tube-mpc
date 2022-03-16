@@ -1,6 +1,6 @@
 # Robust Dynamic Tube MPC
 
-This  repo contains uncertain linear models and examples of applying invariant-tube-based model predictive control. 
+This repo contains uncertain linear models and examples of applying time varying tube-based model predictive control (MPC). 
 
 **Dependenices**: 
 - [MATLAB controls toolbox](https://www.mathworks.com/products/control.html)
@@ -18,7 +18,6 @@ This  repo contains uncertain linear models and examples of applying invariant-t
 
 ```
 >> run_spring_mass_damper
->> save_run
 ```
 
 ## References

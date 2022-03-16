@@ -1,3 +1,18 @@
+function postprocess_planar_double_integrator(system, tube, simdata)
+%% System Data
+X = system.X;
+C = system.C;
+
+%% Tube Data
+N = tube.N;
+z = tube.z;
+v = tube.v;
+a = tube.a;
+
+%% Simulation Data
+runs = simdata.runs;
+xs = simdata.xs;
+u = simdata.us(:,:,1);
 figure
 hold on
 axis equal

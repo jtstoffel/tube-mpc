@@ -1,3 +1,19 @@
+function postprocess_spring_mass_damper(system, tube, simdata)
+%% System Data
+X = system.X;
+C = system.C;
+
+%% Tube Data
+N = tube.N;
+z = tube.z;
+v = tube.v;
+a = tube.a;
+
+%% Simulation Data
+runs = simdata.runs;
+xs = simdata.xs;
+u = simdata.us(:,:,1);
+
 figure
 hold on
 axis equal
@@ -31,7 +47,7 @@ plot(0,0,'ro', LineWidth=2)
 xlabel('x1')
 ylabel('x2')
 
-figure(4)
+figure
 grid on; hold on 
 plot(v)
 plot(u)
