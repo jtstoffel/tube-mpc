@@ -39,7 +39,7 @@ else
     %% S(1), K(1), and C
     K1 = -dlqr(A,B,Qz,Qv); system.K1 = K1;
     Ak = A+B*K1;  system.Ak = Ak;
-    S1 = compute_mrpi_set(Ak,W, 1e-5);
+    S1 = compute_mrpi_set(Ak,W, 1e-3);
     S1.computeHRep; system.S1 = S1;
 
     C = zeros(size(S1.A));
@@ -65,34 +65,19 @@ else
     %% L(1), M(1), T(1)
     L1 = sdpvar(qs,qs,'full');
     cons = [L1*ones(qs,1) == 1-d, L1>=0, L1*C == C*Ak];
-    obj = 0;
-    for k = 1:qs
-        for j = 1:qs
-            obj = obj + L1(k,j)^2;
-        end
-    end
+    obj = sum(sum(L1.^2));
     optimize(cons,obj,opts)
     L1 = value(L1); system.L1 = L1;
 
     M1 = sdpvar(qx,qs,'full');
     cons = [M1*ones(qs,1) == gamma1, M1>=0, M1*C == G];
-    obj = 0;
-    for k = 1:qx
-        for j = 1:qs
-            obj = obj + M1(k,j)^2;
-        end
-    end
+    obj = sum(sum(M1.^2));
     optimize(cons,obj,opts)
     M1 = value(M1); system.M1 = M1;
 
     T1 = sdpvar(qu,qs,'full');
     cons = [T1*ones(qs,1) == eta1, T1>=0, T1*C == H*K1];
-    obj = 0;
-    for k = 1:qu
-        for j = 1:qs
-            obj = obj + T1(k,j)^2;
-        end
-    end
+    obj = sum(sum(T1.^2));
     optimize(cons,obj,opts)
     T1 = value(T1); system.T1 = T1;
 

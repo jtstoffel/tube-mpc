@@ -11,6 +11,12 @@ alpha = 1000;
 Ms = 1000;
 E = eye(nx);
 it = 0;
+
+W.computeHRep;
+W.computeVRep;
+W.minHRep;
+W.minVRep;
+
 disp('-------------------------------------------------')
 disp('Calculating Invariant Set ...')
 tic
@@ -28,8 +34,11 @@ end
 Fs = W;
 for i =1:s-1
     Fs = Fs+Ak^i*W;
+    Fs.minVRep;
 end
 Fs = (1/(1-alpha))*Fs;
+Fs.minVRep;
+Fs.computeHRep;
 
 toc
 end
