@@ -66,19 +66,31 @@ else
     L1 = sdpvar(qs,qs,'full');
     cons = [L1*ones(qs,1) == 1-d, L1>=0, L1*C == C*Ak];
     obj = sum(sum(L1.^2));
-    optimize(cons,obj,opts)
+    sol = optimize(cons,obj,opts);
+    if sol.problem ~= 0 
+        disp('FAILURE: Unable to solve for L1')
+        disp(sol)
+    end
     L1 = value(L1); system.L1 = L1;
 
     M1 = sdpvar(qx,qs,'full');
     cons = [M1*ones(qs,1) == gamma1, M1>=0, M1*C == G];
     obj = sum(sum(M1.^2));
-    optimize(cons,obj,opts)
+    sol = optimize(cons,obj,opts);
+    if sol.problem ~= 0 
+        disp('FAILURE: Unable to solve for M1')
+        disp(sol)
+    end
     M1 = value(M1); system.M1 = M1;
 
     T1 = sdpvar(qu,qs,'full');
     cons = [T1*ones(qs,1) == eta1, T1>=0, T1*C == H*K1];
     obj = sum(sum(T1.^2));
-    optimize(cons,obj,opts)
+    sol = optimize(cons,obj,opts);
+    if sol.problem ~= 0 
+        disp('FAILURE: Unable to solve for T1')
+        disp(sol)
+    end
     T1 = value(T1); system.T1 = T1;
 
     %% Pz and Pa
@@ -88,7 +100,11 @@ else
     cons = [Ak'*Pz*Ak - Pz + Qz - K1'*Qv*K1 <= -tol*eye(system.nx)];
     cons = [cons, L1'*Pa*L1 - Pa + Qa <= -tol*eye(qs)];
     obj = 0;
-    optimize(cons,obj,opts);
+    sol = optimize(cons,obj,opts);
+    if sol.problem ~= 0
+        disp('FAILURE: Unable to solve for Pz and Pa')
+        disp(sol)
+    end
     Pz = value(Pz); system.Pz = Pz;
     Pa = value(Pa); system.Pa = Pa;
 

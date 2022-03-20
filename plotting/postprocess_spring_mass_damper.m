@@ -14,25 +14,17 @@ runs = simdata.runs;
 xs = simdata.xs;
 u = simdata.us(:,:,1);
 
+%% Plots
 figure
 hold on
 axis equal
+X.plot('color', [0 0 0])
 
-% Plot 2-D Position Domain
-X_position_A = X.A(:,1:2);
-X_position_b = X.b;
-X_position = Polyhedron('A', X_position_A, 'b', X_position_b);
-X_position.plot('color', [0 0 0])
 
 for k = 1:N
     Sa = Polyhedron('A', C, 'b', a(:,k));
-    Sa_position_A = Sa.A(:,1:2);
-    Sa_position_b = Sa.b;
-    Sa_position = Polyhedron('A', Sa_position_A, 'b', Sa_position_b);
-    Sa_position.computeVRep;
-    state_set_verts = repmat(z(1:2,k)',[length(Sa_position.V), 1]) + Sa_position.V;
-    shifted_state_set = Polyhedron(state_set_verts);
-    shifted_state_set.plot('color','green');
+    Sa = Sa.plus(z(:,k));
+    Sa.plot('color','green');
 end
 plot(z(1,:),z(2,:),'bo',LineWidth=3)
 
@@ -42,7 +34,7 @@ for i = 1:runs
 end
 
 plot(0,0,'ro', LineWidth=2)
-
+title('Spring Mass Damper Trajectory')
 
 xlabel('x1')
 ylabel('x2')
@@ -52,6 +44,8 @@ grid on; hold on
 plot(v)
 plot(u)
 plot(u-v)
+plot(xlim, ones(2,1) * system.u_min, 'k--')
+plot(xlim, ones(2,1) * system.u_max, 'k--')
 xlabel('Time Step, k')
-ylabel('Control Input')
-legend('Nominal', 'Total','Disturbance Rejection')
+ylabel('Control Input'); 
+legend('Nominal', 'Total','Disturbance Rejection', 'Input Constraint')

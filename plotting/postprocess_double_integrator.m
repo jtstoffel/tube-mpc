@@ -1,4 +1,4 @@
-function postprocess_htmpc_example(system, tube, simdata)
+function postprocess_double_integrator(system, tube, simdata)
 %% System Data
 X = system.X;
 C = system.C;
@@ -23,10 +23,8 @@ X.plot('color', [0 0 0])
 
 for k = 1:N
     Sa = Polyhedron('A', C, 'b', a(:,k));
-    Sa.computeVRep;
-    state_set_verts = repmat(z(:,k)',[length(Sa.V), 1]) + Sa.V;
-    shifted_state_set = Polyhedron(state_set_verts);
-    shifted_state_set.plot('color','green');
+    Sa = Sa.plus(z(:,k));
+    Sa.plot('color','green');
 end
 plot(z(1,:),z(2,:),'bo',LineWidth=3)
 
@@ -36,7 +34,7 @@ for i = 1:runs
 end
 
 plot(0,0,'ro', LineWidth=2)
-
+title('Double Integrator Trajectory')
 
 xlabel('x1')
 ylabel('x2')
@@ -46,6 +44,8 @@ grid on; hold on
 plot(v)
 plot(u)
 plot(u-v)
+plot(xlim, ones(2,1) * system.u_min, 'k--')
+plot(xlim, ones(2,1) * system.u_max, 'k--')
 xlabel('Time Step, k')
-ylabel('Control Input')
-legend('Nominal', 'Total','Disturbance Rejection')
+ylabel('Control Input'); 
+legend('Nominal', 'Total','Disturbance Rejection', 'Input Constraint')

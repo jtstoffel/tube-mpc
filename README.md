@@ -8,6 +8,7 @@ This repo contains uncertain linear models and examples of applying time varying
 - [MOSEK](https://www.mosek.com/products/academic-licenses/)
 - [MPT3](https://www.mpt3.org/)
 
+![fig](./figures/etmpc_sim.png)
 
 ## Setup
 ```
@@ -15,6 +16,8 @@ This repo contains uncertain linear models and examples of applying time varying
 ```
 
 ## Example 
+1. Edit initial state and elasticity weighting in example file
+2. Set `useDataFile` to false to recompute tube approximation parameters
 
 ```
 >> run_spring_mass_damper

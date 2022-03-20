@@ -69,7 +69,7 @@ cons = [cons, a(:,N) == ones(qs,1)];
 cons = [cons, v(:,N) == zeros(nu,1)];
 
 % Terminal Cost
-obj = obj + z(:,N)'*Pz*z(:,N) + (a(:,N)-1)'*Pa*(a(:,N)-1);
+% obj = obj + z(:,N)'*Pz*z(:,N) + (a(:,N)-1)'*Pa*(a(:,N)-1);
 
 % Homothetic Tube Constraint
 if strcmp(tube_type, 'htoc')
