@@ -1,4 +1,4 @@
-function simdata = sim_etoc(system, tube, runs, saveFlag)
+function simdata = sim_etoc(system, tube, bc, runs, saveFlag)
 %% Optimal Control Simulation
 disp('-------------------------------------------------')
 disp('Simulating perturbed runs ...')
@@ -12,13 +12,24 @@ nu = system.nu;
 nw = system.nw;
 w_min = system.w_min;
 w_max = system.w_max;
-x0 = system.x0;
 K1 = system.K1;
+C = system.C;
 
 %% Tube Data
 N = tube.N;
 z = tube.z;
 v = tube.v;
+
+%% Boundary Condition Data
+if ~isempty(bc.initial_tube)
+    z0 = bc.initial_tube.z;
+    a0 = bc.initial_tube.a;
+    S = Polyhedron('A', C, 'b', a0);
+    S = S.plus(z0);
+    x0 = S.randomPoint;
+elseif ~isempty(bc.initial_state) 
+    x0 = bc.initial_state;
+end
 
 %% Simulation 
 rng(1);

@@ -14,7 +14,7 @@ a = tube.a;
 runs = simdata.runs;
 xs = simdata.xs;
 u1 = simdata.us(1,:,1);
-u2 = simdata.us(1,:,1);
+u2 = simdata.us(2,:,1);
 
 %% Plots
 figure
@@ -37,7 +37,6 @@ for i = 1:runs
     plot(xs(1,:,i),xs(3,:,i),'co',LineWidth=0.2)
 end
 
-plot(0,0,'ro', LineWidth=2)
 title('Planar Double Integrator Position')
 
 figure

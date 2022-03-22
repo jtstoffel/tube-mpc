@@ -1,6 +1,6 @@
 # Robust Dynamic Tube MPC
 
-This repo contains uncertain linear models and examples of applying time varying tube-based model predictive control (MPC). 
+This repo contains uncertain discrete time linear models and examples of applying time-varying tube-based model predictive control (MPC).  
 
 **Dependenices**: 
 - [MATLAB controls toolbox](https://www.mathworks.com/products/control.html)
@@ -8,7 +8,7 @@ This repo contains uncertain linear models and examples of applying time varying
 - [MOSEK](https://www.mosek.com/products/academic-licenses/)
 - [MPT3](https://www.mpt3.org/)
 
-![fig](./figures/etmpc_sim.png)
+![fig](./figures/fig1.png)
 
 ## Setup
 ```
@@ -20,8 +20,45 @@ This repo contains uncertain linear models and examples of applying time varying
 2. Set `useDataFile` to false to recompute tube approximation parameters
 
 ```
->> run_spring_mass_damper
+>> run_planar_double_integrator
 ```
+
+## TODO
+### March 2022
+- [x] Speed up preprocessing
+- [x] Add support for homothetic and fixed size tubes
+- [x] Add different boundary condition options
+    - [x] Set-based initial and final conditions
+    - [x] Support mixed set and state boundary conditions
+- [ ] Verify objective function for non-zero goal state (DOING)
+- [ ] Add tube trimming 
+- [ ] Update stale models
+    - `double_integrator_model.m`
+    - `spring_mass_damper_model.m`
+- [ ] Add full state vs. time plotting to all postprocessing scripts
+- [ ] Add kinematic RRT* planner (DOING)
+- [ ] Add additional map options to `build_map.m`
+    - [ ] Map saving
+    - [ ] Non-convex obstacles
+- [ ] Decide on node and edge data for tube-to-tube RRT* tree
+
+### April 2022
+- [ ] Add tube-to-tube ETOC steering to RRT* planner
+    - [ ] Decide on rewiring strategy 
+    - [ ] Decide on constant or decreasing prediction horizon
+    - [ ] Add tube interpolation / overapproximation / convex hull?
+    - [ ] Add tube obstalce collision check 
+- [ ] Full example using basic map and `planar_double_integrator_model.m`
+- [ ] Predicition horizon performance study
+- [ ] RRT* radius performance study
+- [ ] Add nonlinear vehicle model
+- [ ] Add piecewise affine abstraction system type
+    - [ ] Add preprocessing variant
+    - [ ] Test `etoc.m` with new system type
+    - [ ] Add postprocessing
+- [ ] Full example using basic map and nonlinear system
+
+
 
 ## References
 ### ETMPC
