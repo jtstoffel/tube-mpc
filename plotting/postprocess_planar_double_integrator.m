@@ -6,6 +6,10 @@ C = system.C;
 %% Tube Data
 N = tube.N;
 z = tube.z;
+z1 = z(1,:);
+z2 = z(2,:);
+z3 = z(3,:);
+z4 = z(4,:);
 v1 = tube.v(1,:);
 v2 = tube.v(2,:);
 a = tube.a;
@@ -16,7 +20,7 @@ xs = simdata.xs;
 u1 = simdata.us(1,:,1);
 u2 = simdata.us(2,:,1);
 
-%% Plots
+%% State Trajectory Plot
 figure
 hold on
 axis equal
@@ -64,16 +68,68 @@ title('Planar Double Integrator Velocity')
 xlabel('v1')
 ylabel('v2')
 
-
+%% Control Input vs. Time Plot
 figure
+subplot(2,1,1)
 grid on; hold on 
 plot(v1)
-plot(v2)
 plot(u1)
-plot(u2)
-plot(u1 + u2 - v1 - v2)
+plot(u1 - v1)
 plot(xlim, ones(2,1) * system.u_min(1), 'k--')
 plot(xlim, ones(2,1) * system.u_max(1), 'k--')
 xlabel('Time Step, k')
-ylabel('Control Input')
-legend('Nominal Input 1', 'Nominal Input 2', 'Total Input 1', 'Total Input 2','Disturbance Rejection', 'Input Constraint')
+ylabel('Control Input 1')
+legend('Nominal', 'Total', 'Disturbance Rejection', 'Input Constraint')
+
+subplot(2,1,2)
+grid on; hold on
+plot(v2)
+plot(u2)
+plot(u2 - v2)
+plot(xlim, ones(2,1) * system.u_min(2), 'k--')
+plot(xlim, ones(2,1) * system.u_max(2), 'k--')
+xlabel('Time Step, k')
+ylabel('Control Input 2')
+legend('Nominal', 'Total', 'Disturbance Rejection', 'Input Constraint')
+
+%% State vs. Time Plot
+figure
+subplot(2,2,1)
+grid on; hold on
+plot(z1)
+plot(xlim, ones(2,1) * system.x_min(1), 'k--')
+plot(xlim, ones(2,1) * system.x_max(1), 'k--')
+xlabel('Time Step, k')
+ylabel('Nominal X Position')
+
+subplot(2,2,2)
+grid on; hold on
+plot(z2)
+xlabel('Time Step, k')
+ylabel('Nominal X Velocity')
+plot(xlim, ones(2,1) * system.x_min(2), 'k--')
+plot(xlim, ones(2,1) * system.x_max(2), 'k--')
+
+subplot(2,2,3)
+grid on; hold on
+plot(z3)
+plot(xlim, ones(2,1) * system.x_min(3), 'k--')
+plot(xlim, ones(2,1) * system.x_max(3), 'k--')
+xlabel('Time Step, k')
+ylabel('Nominal Y Position')
+
+subplot(2,2,4)
+grid on; hold on
+plot(z4)
+plot(xlim, ones(2,1) * system.x_min(4), 'k--')
+plot(xlim, ones(2,1) * system.x_max(4), 'k--')
+xlabel('Time Step, k')
+ylabel('Nominal Y Velocity')
+
+
+
+
+
+
+
+

@@ -30,33 +30,28 @@ This repo contains uncertain discrete time linear models and examples of applyin
 - [x] Add different boundary condition options
     - [x] Set-based initial and final conditions
     - [x] Support mixed set and state boundary conditions
-- [ ] Verify objective function for non-zero goal state (DOING)
+- [x] Verify objective function for non-zero goal state
 - [ ] Add tube trimming 
-- [ ] Update stale models
-    - `double_integrator_model.m`
-    - `spring_mass_damper_model.m`
-- [ ] Add full state vs. time plotting to all postprocessing scripts
-- [ ] Add kinematic RRT* planner (DOING)
-- [ ] Add additional map options to `build_map.m`
-    - [ ] Map saving
-    - [ ] Non-convex obstacles
-- [ ] Decide on node and edge data for tube-to-tube RRT* tree
+- [x] Update stale models
+    - [x] `double_integrator_model.m`
+    - [x] `spring_mass_damper_model.m`
+- [x] Add full state vs. time plotting to all postprocessing scripts
+- [x] Decide on node and edge data for tube-to-tube RRT* tree
+- [x] Add RRT planner
 
 ### April 2022
-- [ ] Add tube-to-tube ETOC steering to RRT* planner
-    - [ ] Decide on rewiring strategy 
+- [ ] Add tube-to-tube ETOC steering to RRT planner
+    - [x] Add tube obstacle collision check
     - [ ] Decide on constant or decreasing prediction horizon
     - [ ] Add tube interpolation / overapproximation / convex hull?
-    - [ ] Add tube obstalce collision check 
+- [ ] Decide on rewiring strategy for RRT* planner
 - [ ] Full example using basic map and `planar_double_integrator_model.m`
 - [ ] Predicition horizon performance study
 - [ ] RRT* radius performance study
-- [ ] Add nonlinear vehicle model
-- [ ] Add piecewise affine abstraction system type
-    - [ ] Add preprocessing variant
-    - [ ] Test `etoc.m` with new system type
-    - [ ] Add postprocessing
-- [ ] Full example using basic map and nonlinear system
+- [ ] Add vehicle model
+- [ ] Add additional map options to `build_map.m`
+    - [ ] Map saving
+    - [ ] Non-convex obstacles
 
 
 

@@ -1,25 +1,26 @@
-function tube = etoc(system, N, tube_type, bc)
+function tube = etoc(system, N, bc, tube_type, silent)
 %% Elastic Tube Optimal Control Example
 % Josh Stoffel
-disp('-------------------------------------------------')
-disp('Starting Elastic Tube Optimal Control Problem ...')
 
-%% Boundary Condition Argument Check
-if nargin < 3
-    tube_type = 'etoc';
-    bc.initial_state = system.x0;
-    bc.initial_tube = [];
-    bc.final_state = zeros(system.nx,1);
-    bc.final_tube = [];
-elseif nargin < 4
-    bc.initial_state = system.x0;
-    bc.initial_tube = [];
-    bc.final_state = zeros(system.nx,1);
-    bc.final_tube = [];
+%% Argument Check
+if not(all(isfield(bc, {'initial_state', 'final_state', 'initial_tube', 'final_tube'})))
+    error('Invalid boundary condition data')
 end
 
+if nargin < 4
+    tube_type = 'etoc';
+    silent = false;
+elseif nargin < 5
+    silent = false;
+end
+
+if not(any(strcmp(tube_type,{'etoc','htoc','fixed'})))
+    tube_type = 'etoc';
+end
+
+
 %% Solver Settings
-opts = sdpsettings('solver','mosek','verbose',0);
+opts = sdpsettings('solver','mosek','verbose',0, 'beeponproblem', []);
 tol = 1e-8;
 
 %% System Data
@@ -56,9 +57,8 @@ cons = [cons, -a <= 0]; % positive vector
 % Initial Constraints
 if ~isempty(bc.initial_tube) 
     z0 = bc.initial_tube.z;
-    v0 = bc.initial_tube.v;
     a0 = bc.initial_tube.a;
-    cons = [cons, z(:,1) == z0, v(:,1) == v0, a(:,1) == a0];
+    cons = [cons, z(:,1) == z0, a(:,1) == a0];
 elseif ~isempty(bc.initial_state) 
     x0 = bc.initial_state;
     cons = [cons, C*x0 - C*z(:,1) - a(:,1) <= 0];
@@ -69,9 +69,8 @@ end
 % Terminal Constraints
 if ~isempty(bc.final_tube) 
     zf = bc.final_tube.z;
-    vf = bc.final_tube.v;
     af = bc.final_tube.a;
-    cons = [cons, z(:,N) == zf, v(:,N) == vf, a(:,N) == af];
+    cons = [cons, z(:,N) == zf];
 elseif ~isempty(bc.final_state) 
     xf = bc.final_state; zf = xf;
     cons = [cons, C*xf - C*z(:,N) - a(:,N) <= 0];
@@ -111,7 +110,16 @@ if strcmp(tube_type, 'fixed')
 end
 
 %% Optimize Tube 
-disp('Solving trajectory tube ...')
+if not(silent)
+    disp('-------------------------------------------------')
+    if strcmp(tube_type, 'etoc')
+        disp('Starting Elastic Tube Optimal Control Problem ...')
+    elseif strcmp(tube_type, 'htoc')
+        disp('Starting Homothetic Tube Optimal Control Problem ...')
+    else
+        disp('Starting Fixed Tube Optimal Control Problem ...')
+    end
+end
 tic
 sol = optimize(cons,obj,opts);
 tube.z = value(z);
@@ -122,9 +130,13 @@ tube.cost = value(obj);
 tube.success = true;
 
 if sol.problem ~= 0
-    disp('FAILURE: Unable to solve tube trajectory')
-    disp(sol)
+    if not(silent)
+        disp('FAILURE: Unable to solve tube trajectory')
+    end
     tube.success = false;
 end
 
-toc
+t = toc;
+if not(silent)
+    fprintf('Elapsed time is %d seconds.\n', t);
+end

@@ -6,6 +6,8 @@ C = system.C;
 %% Tube Data
 N = tube.N;
 z = tube.z;
+z1 = z(1,:);
+z2 = z(2,:);
 v = tube.v;
 a = tube.a;
 
@@ -14,12 +16,11 @@ runs = simdata.runs;
 xs = simdata.xs;
 u = simdata.us(:,:,1);
 
-%% Plots
+%% State Trajectory Plot
 figure
 hold on
 axis equal
 X.plot('color', [0 0 0])
-
 
 for k = 1:N
     Sa = Polyhedron('A', C, 'b', a(:,k));
@@ -39,6 +40,7 @@ title('Spring Mass Damper Trajectory')
 xlabel('x1')
 ylabel('x2')
 
+%% Control Input vs. Time Plot
 figure
 grid on; hold on 
 plot(v)
@@ -49,3 +51,21 @@ plot(xlim, ones(2,1) * system.u_max, 'k--')
 xlabel('Time Step, k')
 ylabel('Control Input'); 
 legend('Nominal', 'Total','Disturbance Rejection', 'Input Constraint')
+
+%% State vs. Time Plot
+figure
+subplot(2,1,1)
+grid on; hold on
+plot(z1)
+plot(xlim, ones(2,1) * system.x_min(1), 'k--')
+plot(xlim, ones(2,1) * system.x_max(1), 'k--')
+xlabel('Time Step, k')
+ylabel('Nominal Position')
+
+subplot(2,1,2)
+grid on; hold on
+plot(z2)
+xlabel('Time Step, k')
+ylabel('Nominal Velocity')
+plot(xlim, ones(2,1) * system.x_min(2), 'k--')
+plot(xlim, ones(2,1) * system.x_max(2), 'k--')

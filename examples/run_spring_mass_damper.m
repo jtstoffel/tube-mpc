@@ -2,6 +2,14 @@ clear; clc
 system = spring_mass_damper_model;
 system = preprocess_system(system, true);
 system.Qa = 1 * eye(system.qs); % adjust elasticity 
-tube = etoc(system, 25);
-simdata = sim_etoc(system, tube, 50, false);
+
+bc.initial_tube.z = [1;-2];
+bc.initial_tube.a = ones(system.qs,1);
+bc.initial_state = [];
+bc.final_tube.z = [0;0];
+bc.final_tube.a = ones(system.qs,1);
+bc.final_state = [];
+
+tube = etoc(system, 10, bc);
+simdata = sim_etoc(system, tube, bc, 10, false);
 postprocess_spring_mass_damper(system, tube, simdata);
