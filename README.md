@@ -15,12 +15,20 @@ This repo contains uncertain discrete time linear models and examples of applyin
 >> startup
 ```
 
-## Example 
+## Elastic Tube Optimal Control Example 
 1. Edit initial state and elasticity weighting in example file
-2. Set `useDataFile` to false to recompute tube approximation parameters
+2. Set `useDataFile` to false to recompute tube approximation parameters if you want to see all the action 
 
 ```
 >> run_planar_double_integrator
+```
+
+## Tube-to-Tube RRT Motion Planning Example 
+1. Edit maximum iterations, initial/final nominal states, and ETOC solver tube length(s) in `rrtstar_etoc.m`
+2. Create additional obstacles using polytopes in `build_map.m`
+
+```
+>> rrtstar_etoc
 ```
 
 ## TODO
@@ -42,7 +50,7 @@ This repo contains uncertain discrete time linear models and examples of applyin
 ### April 2022
 - [ ] Add tube-to-tube ETOC steering to RRT planner
     - [x] Add tube obstacle collision check
-    - [ ] Decide on constant or decreasing prediction horizon
+    - [x] Decide on constant or decreasing prediction horizon
     - [ ] Add tube interpolation / overapproximation / convex hull?
 - [ ] Decide on rewiring strategy for RRT* planner
 - [ ] Full example using basic map and `planar_double_integrator_model.m`
