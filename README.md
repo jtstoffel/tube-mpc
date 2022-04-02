@@ -9,13 +9,16 @@ This repo contains uncertain discrete time linear models and examples of applyin
 - [MPT3](https://www.mpt3.org/)
 
 ![fig](./figures/fig1.png)
+![fig](./figures/rrt_test3.png)
 
 ## Setup
 ```
 >> startup
+>> test
 ```
 
-## Elastic Tube Optimal Control Example 
+## Example Use Cases
+### Elastic Tube Optimal Control 
 1. Edit initial state and elasticity weighting in example file
 2. Set `useDataFile` to false to recompute tube approximation parameters if you want to see all the action 
 
@@ -23,7 +26,7 @@ This repo contains uncertain discrete time linear models and examples of applyin
 >> run_planar_double_integrator
 ```
 
-## Tube-to-Tube RRT Motion Planning Example 
+### Tube-to-Tube RRT Motion Planning 
 1. Edit maximum iterations, initial/final nominal states, and ETOC solver tube length(s) in `rrtstar_etoc.m`
 2. Create additional obstacles using polytopes in `build_map.m`
 
@@ -39,7 +42,6 @@ This repo contains uncertain discrete time linear models and examples of applyin
     - [x] Set-based initial and final conditions
     - [x] Support mixed set and state boundary conditions
 - [x] Verify objective function for non-zero goal state
-- [ ] Add tube trimming 
 - [x] Update stale models
     - [x] `double_integrator_model.m`
     - [x] `spring_mass_damper_model.m`
