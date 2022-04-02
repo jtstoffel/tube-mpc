@@ -2,7 +2,7 @@ clear; clc
 system = planar_double_integrator_model;
 system = preprocess_system(system, true);
 
-system.Qa = 0.01 * eye(system.qs); % adjust elasticity 
+system.Qa = 0.1 * eye(system.qs); % adjust elasticity 
 
 bc.initial_tube.z = [1;-2;8;-1];
 bc.initial_tube.a = ones(system.qs,1);

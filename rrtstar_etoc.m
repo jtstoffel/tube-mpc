@@ -4,22 +4,23 @@ close all
 %% Setup
 system = planar_double_integrator_model; % only supported model currently
 system = preprocess_system(system, true);
+system.Qa = 0.1 * eye(system.qs); % adjust elasticity 
 
 % Initial and final states
 z0 = [0;0;0;0];
 zf = [8;0;5;0];
 
 % Iterations
-imax = 10000;
+imax = 100000;
 stop_on_goal = false;
 tube_failures = 0;
 unused_samples = 0;
 
 %% Build ETOC solver
-solver_step_size = [3 5 8];
+solver_step_size = [3 5 7];
 etoc_solvers =  {};
 for i = 1:length(solver_step_size)
-    etoc_solvers{i} = build_etoc_solver(system, solver_step_size(i),  'fixed', false);
+    etoc_solvers{i} = build_etoc_solver(system, solver_step_size(i),  'etoc', false);
 end
 
 %% Initialize graph
@@ -104,49 +105,58 @@ for i = 1:length(path_edges)
 end
 scatter(z0(1), z0(3), 'ro',LineWidth=3)
 scatter(zf(1), zf(3), 'go',LineWidth=3)
+set(gca,'FontSize',18)
 
 
 %% State and Control Plots
 figure(2)
-sgtitle('Nominal State Trajectories')
+sgtitle('Nominal State Trajectories','FontSize',18)
 subplot(2,2,1)
-plot(zs(1,:))
+stairs(zs(1,:),LineWidth=2)
 ylabel('z1')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 subplot(2,2,2)
-plot(zs(2,:))
+stairs(zs(2,:),LineWidth=2)
 ylabel('z2')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 subplot(2,2,3)
-plot(zs(3,:))
+stairs(zs(3,:),LineWidth=2)
 ylabel('z3')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 subplot(2,2,4)
-plot(zs(4,:))
+stairs(zs(4,:),LineWidth=2)
 ylabel('z4')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 figure(3)
 vs(isnan(vs)) = 0;
-sgtitle('Nominal Control Input')
+sgtitle('Nominal Control Input','FontSize',18)
 subplot(2,1,1)
-plot(vs(1,:))
+stairs(vs(1,:),LineWidth=2)
 ylabel('v1')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 subplot(2,1,2)
-plot(vs(2,:))
+stairs(vs(2,:),LineWidth=2)
 ylabel('v2')
 xlabel('Time step')
+set(gca,'FontSize',18)
 
 %% Cost Plot
 figure(6)
-plot(costs)
+stairs(costs,LineWidth=2)
 ylabel('Cost')
 xlabel('Trajectory Tube Section')
+set(gca,'xtick',1:path_edges)
+set(gca,'FontSize',18)
 
 %% Aux Functions
 function x = sample_state(system, xf)

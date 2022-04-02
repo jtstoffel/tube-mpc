@@ -9,7 +9,7 @@ This repo contains uncertain discrete time linear models and examples of applyin
 - [MPT3](https://www.mpt3.org/)
 
 ![fig](./figures/fig1.png)
-![fig](./figures/rrt_test3.png)
+![fig](./figures/rrt_test5.png)
 
 ## Setup
 ```
