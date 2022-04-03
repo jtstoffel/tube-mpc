@@ -4,6 +4,8 @@ addpath('./plotting/')
 addpath('./examples/')
 addpath('./figures/')
 addpath('./utils/')
+addpath('./planner/')
+addpath('./etoc/')
 
 if exist('./data', 'dir') ~= 7
     mkdir('./data')

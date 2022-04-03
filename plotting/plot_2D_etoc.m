@@ -1,4 +1,4 @@
-function postprocess_double_integrator(system, tube, simdata)
+function plot_2D_etoc(system, tube, simdata)
 %% System Data
 X = system.X;
 C = system.C;
@@ -35,7 +35,7 @@ for i = 1:runs
 end
 
 plot(0,0,'ro', LineWidth=2)
-title('Double Integrator Trajectory')
+title(upper(strrep(system.name, '_',' ')))
 
 xlabel('x1')
 ylabel('x2')
@@ -43,9 +43,9 @@ ylabel('x2')
 %% Control Input vs. Time Plot
 figure
 grid on; hold on 
-plot(v)
-plot(u)
-plot(u-v)
+stairs(v)
+stairs(u)
+stairs(u-v)
 plot(xlim, ones(2,1) * system.u_min, 'k--')
 plot(xlim, ones(2,1) * system.u_max, 'k--')
 xlabel('Time Step, k')
@@ -56,16 +56,18 @@ legend('Nominal', 'Total','Disturbance Rejection', 'Input Constraint')
 figure
 subplot(2,1,1)
 grid on; hold on
-plot(z1)
+stairs(z1)
 plot(xlim, ones(2,1) * system.x_min(1), 'k--')
 plot(xlim, ones(2,1) * system.x_max(1), 'k--')
 xlabel('Time Step, k')
-ylabel('Nominal Position')
+ylabel('z1')
+legend('z_1', 'State Constraint')
 
 subplot(2,1,2)
 grid on; hold on
-plot(z2)
-xlabel('Time Step, k')
-ylabel('Nominal Velocity')
+stairs(z2)
 plot(xlim, ones(2,1) * system.x_min(2), 'k--')
 plot(xlim, ones(2,1) * system.x_max(2), 'k--')
+xlabel('Time Step, k')
+ylabel('z2')
+legend('z_2', 'State Constraint')

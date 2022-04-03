@@ -12,4 +12,4 @@ bc.final_state = [];
 
 tube = etoc(system, 10, bc);
 simdata = sim_etoc(system, tube, bc, 10, false);
-postprocess_spring_mass_damper(system, tube, simdata);
+plot_2D_etoc(system, tube, simdata);

@@ -1,6 +1,7 @@
 # Robust Dynamic Tube MPC
 
-This repo contains uncertain discrete time linear models and examples of applying time-varying tube-based model predictive control (MPC).  
+This repo contains uncertain discrete time linear models and examples of applying time-varying tube-based model predictive control (MPC). 
+Global RRT/RRT* planner included for tube-to-tube steering with obstacles.
 
 **Dependenices**: 
 - [MATLAB controls toolbox](https://www.mathworks.com/products/control.html)
@@ -8,13 +9,13 @@ This repo contains uncertain discrete time linear models and examples of applyin
 - [MOSEK](https://www.mosek.com/products/academic-licenses/)
 - [MPT3](https://www.mpt3.org/)
 
-![fig](./figures/fig1.png)
 ![fig](./figures/rrt_test5.png)
+![fig](./figures/rrt_test5_states.png)
 
 ## Setup
 ```
->> startup
->> test
+startup
+test(true)
 ```
 
 ## Example Use Cases
@@ -23,16 +24,44 @@ This repo contains uncertain discrete time linear models and examples of applyin
 2. Set `useDataFile` to false to recompute tube approximation parameters if you want to see all the action 
 
 ```
->> run_planar_double_integrator
+run_planar_double_integrator
 ```
 
-### Tube-to-Tube RRT Motion Planning 
-1. Edit maximum iterations, initial/final nominal states, and ETOC solver tube length(s) in `rrtstar_etoc.m`
+### Tube-to-Tube Sampling-Based Motion Planning 
+1. Edit maximum iterations, initial/final nominal states, and ETOC solver tube length(s) in example file
 2. Create additional obstacles using polytopes in `build_map.m`
 
 ```
->> rrtstar_etoc
+run_rrt_example
 ```
+
+## Data Structures
+### Tube
+| Fields  | Description | Size | Type |
+| ------------- |:-------------:|-------------:|-------------:|
+| `z`      |  Nominal state trajectory  | (nx,N) | float
+| `v`      | Nominal control input sequence     |  (nu,N)| float
+| `a`      | Cross section elasticitiy parameter sequence  |  (qs,N) | float
+| `N`      | Number of time steps     | scalar| int
+| `cost`      | Total cost for tube solution     | scalar | float
+| `success`      | Valid solution success flag     | scalar | bool
+
+### System
+| Fields  | Description | Size | Type |
+| ------------- |:-------------:|-------------:|-------------:|
+| `A`      |  Linear discrete time system state matrix  | (nx,nx) | float
+| `B`      |  Linear discrete time system control matrix  | (nx,nu) | float
+| `x0`      |  Initial state  | (nx,1) | float
+| `x_min`      |  State lower bound  | (nx,1) | float
+| `x_max`      |  State upper bound  | (nx,1) | float
+| `u_min`      |  Control lower bound  | (nu,1) | float
+| `u_max`      |  Control upper bound  | (nu,1) | float
+| `w_min`      |  Disturbance lower bound  | (nw,1) | float
+| `w_max`      |  Disturbance upper bound  | (nw,1) | float
+| `name`      |  System name (for plotting)  | 1 | str
+| `nx`      |  Number of states  | 1 | float
+| `nu`      |  Number of controls  | 1 | float
+| `nw`      |  Number of disturbances  | 1 | float
 
 ## TODO
 ### March 2022
@@ -50,18 +79,17 @@ This repo contains uncertain discrete time linear models and examples of applyin
 - [x] Add RRT planner
 
 ### April 2022
-- [ ] Add tube-to-tube ETOC steering to RRT planner
+- [x] Add tube-to-tube ETOC steering to RRT planner
     - [x] Add tube obstacle collision check
     - [x] Decide on constant or decreasing prediction horizon
-    - [ ] Add tube interpolation / overapproximation / convex hull?
-- [ ] Decide on rewiring strategy for RRT* planner
-- [ ] Full example using basic map and `planar_double_integrator_model.m`
-- [ ] Predicition horizon performance study
-- [ ] RRT* radius performance study
+- [x] Decide on rewiring strategy for RRT* planner
+- [x] Full example using basic map and `planar_double_integrator_model.m`
+- [ ] RRT* planner (DOING)
 - [ ] Add vehicle model
 - [ ] Add additional map options to `build_map.m`
     - [ ] Map saving
     - [ ] Non-convex obstacles
+- [ ] Additional example with more complex obstacle environment
 
 
 
