@@ -2,12 +2,12 @@ function plot_rrtstar_etoc(system, map, global_trajectory, z0, zf)
 
 %% Trajectory Plot
 figure(1)
-cmap = cool;
+cmap = cool; 
 X_pos = system.X.projection([1 3]);
 X_pos.plot('wire',true)
 hold on; axis equal
 map.plot('color', 'blue')
-for i = 1:length(length(global_trajectory))
+for i = 1:length(global_trajectory)
     color = cmap(randi(256),:);
     z = global_trajectory(i).z;
     v = global_trajectory(i).v;
@@ -18,7 +18,10 @@ for i = 1:length(length(global_trajectory))
         Sa = Sa.projection([1 3]);
         Sa.minHRep;
         Sa.plot('color', color)
-    end
+    end   
+end
+for i = 1:length(global_trajectory)
+    z = global_trajectory(i).z;
     plot(z(1,:),z(3,:),'m',LineWidth=3)
 end
 scatter(z0(1), z0(3), 'ro',LineWidth=3)

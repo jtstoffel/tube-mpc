@@ -18,8 +18,8 @@ if setupTestFlag
     % YALMIP/MOSEK
     yalmiptest('mosek')
     disp('Success! Finished setup test')
-
-elseif examplesTestFlag
+end
+if examplesTestFlag
     % Examples test
     try 
         run_double_integrator;
@@ -35,11 +35,6 @@ elseif examplesTestFlag
         run_planar_double_integrator;
     catch
         disp('EXAMPES TEST FAILURE: run_planar_double_integrator')
-    end
-    try 
-        run_rrt_example;
-    catch
-        disp('EXAMPES TEST FAILURE: run_rrt_example')
     end
 
     close all
